@@ -1,4 +1,7 @@
-﻿namespace HardcoreMode
+﻿using AIProject;
+using Manager;
+
+namespace HardcoreMode
 {
 	public partial class HardcoreMode
 	{
@@ -6,6 +9,18 @@
 		{
 			public static void Update()
 			{
+				try
+				{
+					if (MapUIContainer.AnyUIActive())
+					{
+						if (visible)
+							visible = false;
+
+						return;
+					}
+				}
+				catch { }
+				
 				if (FoodKey.Value.IsDown())
 				{
 					visible = !visible;
