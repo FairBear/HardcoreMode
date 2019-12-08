@@ -1,5 +1,5 @@
 ﻿using AIProject;
-using Manager;
+using UnityEngine;
 
 namespace HardcoreMode
 {
@@ -27,6 +27,15 @@ namespace HardcoreMode
 
 					if (visible)
 						foods = GetEdible();
+				}
+			}
+
+			public static void LateUpdate()
+			{
+				if (visible)
+				{
+					Cursor.lockState = CursorLockMode.None;
+					Cursor.visible = true;
 				}
 			}
 		}

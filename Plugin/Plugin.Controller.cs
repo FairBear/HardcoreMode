@@ -18,6 +18,7 @@ namespace HardcoreMode
 
 		void LateUpdate()
 		{
+			FoodMenu.LateUpdate();
 			Dead.LateUpdate();
 		}
 
