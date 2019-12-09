@@ -11,7 +11,8 @@ namespace HardcoreMode
 			{
 				try
 				{
-					if (MapUIContainer.AnyUIActive())
+					if (!PlayerLife.Value ||
+						MapUIContainer.AnyUIActive())
 					{
 						if (visible)
 							visible = false;

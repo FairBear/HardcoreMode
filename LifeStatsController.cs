@@ -86,6 +86,9 @@ namespace HardcoreMode
 			}
 			set
 			{
+				if (!stats.ContainsKey(key))
+					stats[key] = 100f;
+
 				if (value != stats[key])
 					stats[key] = Mathf.Clamp(value, 0f, 100f);
 			}

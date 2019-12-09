@@ -21,13 +21,13 @@ namespace HardcoreMode
 				float dt = Time.deltaTime * 24f / Manager.Map.Instance.EnvironmentProfile.DayLengthInMinute;
 
 				foreach (LifeStatsController controller in agentControllers)
-					UpdateAgent(controller, dt);
+					Update_Agent(controller, dt);
 
-				UpdatePlayer(dt);
+				Update_Player(dt);
 				TryWarn();
 			}
 
-			static void UpdatePlayer(float dt)
+			static void Update_Player(float dt)
 			{
 				bool flag0 = PlayerLife.Value;
 				bool flag1 = PlayerDeath.Value;
@@ -40,8 +40,13 @@ namespace HardcoreMode
 							FoodLossFactor.Value /
 							(Sleep.asleep ? FoodLossSleepFactor.Value : 1);
 				}
-				else if (flag1)
+				else if (flag1 && playerController["health"] > 0)
+				{
 					playerController["health"] -= HealthLoss.Value * dt / 60f;
+
+					if (playerController["health"] == 0 && PermaDeath.Value)
+						TryDelete(Manager.Map.Instance.Player.ChaControl);
+				}
 
 				if (Sleep.asleep)
 				{
@@ -57,7 +62,7 @@ namespace HardcoreMode
 					playerController["stamina"] -= StaminaLoss.Value * dt / StaminaLossFactor.Value;
 			}
 
-			static void UpdateAgent(LifeStatsController controller, float dt)
+			static void Update_Agent(LifeStatsController controller, float dt)
 			{
 				if (controller["health"] > 0)
 				{
@@ -70,10 +75,15 @@ namespace HardcoreMode
 							controller["health"] -= AgentHealthLoss.Value * dt / 60f;
 
 							if (controller["health"] == 0)
+							{
+								if (PermaDeath.Value)
+									TryDelete(controller.agent.ChaControl);
+
 								MapUIContainer.AddNotify($"{controller.agent.CharaName} died.");
+							}
 						}
 				}
-				else if (AgentRevive.Value)
+				else if (AgentRevive.Value && !PermaDeath.Value)
 				{
 					controller["revive"] -= 100f * dt / 60f / 24f;
 
@@ -81,12 +91,9 @@ namespace HardcoreMode
 					{
 						controller["revive", "food", "stamina", "health"] = 100f;
 
-						Debug.Log($"[AAAAAA] {controller["revive"]} {controller["health"]}");
-
 						if (AgentReviveReset.Value)
 						{
-							List<int> keys =
-								controller.ChaControl.fileGameInfo.flavorState.Keys.ToList();
+							List<int> keys = controller.ChaControl.fileGameInfo.flavorState.Keys.ToList();
 
 							foreach (int key in keys)
 								controller.agent.AgentData.SetFlavorSkill(key, 0);

@@ -1,5 +1,7 @@
-﻿using AIProject;
+﻿using AIChara;
+using AIProject;
 using HarmonyLib;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,6 +52,31 @@ namespace HardcoreMode
 			__instance.Move(offset + platformVelocity);
 
 			return false;
+		}
+
+		[HarmonyPrefix]
+		[HarmonyPatch(typeof(ChaFile), "SaveFile", typeof(BinaryWriter), typeof(bool), typeof(int))]
+		public static bool Prefix_ChaFile_SaveFile(ChaFile __instance,
+												   BinaryWriter bw,
+												   bool savePng,
+												   int lang)
+		{
+			if (playerController == null ||
+				(!PlayerDeath.Value && !AgentDeath.Value) ||
+				!PermaDeath.Value)
+				return true;
+
+			if (playerController.ChaFileControl == __instance)
+			{
+				if (playerController["health"] == 0)
+					return false;
+			}
+			else
+				foreach (LifeStatsController controller in agentControllers)
+					if (controller.ChaFileControl == __instance && controller["health"] == 0)
+						return false;
+
+			return true;
 		}
 	}
 }

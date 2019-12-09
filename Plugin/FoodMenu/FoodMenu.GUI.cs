@@ -85,7 +85,6 @@ namespace HardcoreMode
 			static public void OnGUI()
 			{
 				if (!visible ||
-					!PlayerLife.Value ||
 					foods == null ||
 					playerController == null)
 					return;

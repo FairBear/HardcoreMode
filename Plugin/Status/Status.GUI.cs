@@ -45,7 +45,7 @@ namespace HardcoreMode
 			static void Draw_Agent()
 			{
 				bool flag0 = AgentDeath.Value;
-				bool flag1 = AgentRevive.Value;
+				bool flag1 = AgentRevive.Value && !PermaDeath.Value;
 
 				if (agentControllers.Count == 0 ||
 					(!flag0 && !flag1 && !agentControllers.Any(v => v["health"] == 0)))

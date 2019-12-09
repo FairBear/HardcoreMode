@@ -1,5 +1,7 @@
-﻿using AIProject;
+﻿using AIChara;
+using AIProject;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace HardcoreMode
@@ -82,6 +84,20 @@ namespace HardcoreMode
 
 				foreach (LifeStatsController controller in agentControllers)
 					TryWarn(controller, agentThreshold);
+			}
+
+			public static void TryDelete(ChaControl chaCtrl)
+			{
+				string path = chaCtrl.chaFile.ConvertCharaFilePath(
+					chaCtrl.chaFile.charaFileName,
+					chaCtrl.sex
+				);
+				string directory = Path.GetDirectoryName(path);
+
+				Manager.Map.Instance.AgentTable[0].RemoveActor(Manager.Map.Instance.AgentTable[0]);
+
+				if (Directory.Exists(directory) && File.Exists(path))
+					File.Delete(path);
 			}
 		}
 	}
