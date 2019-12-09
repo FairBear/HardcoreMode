@@ -44,7 +44,7 @@ namespace HardcoreMode
 				{
 					playerController["health"] -= HealthLoss.Value * dt / 60f;
 
-					if (playerController["health"] == 0 && PermaDeath.Value)
+					if (playerController["health"] == 0 && Permadeath.Value)
 						TryDelete(Manager.Map.Instance.Player.ChaControl);
 				}
 
@@ -76,14 +76,14 @@ namespace HardcoreMode
 
 							if (controller["health"] == 0)
 							{
-								if (PermaDeath.Value)
+								if (Permadeath.Value)
 									TryDelete(controller.agent.ChaControl);
 
 								MapUIContainer.AddNotify($"{controller.agent.CharaName} died.");
 							}
 						}
 				}
-				else if (AgentRevive.Value && !PermaDeath.Value)
+				else if (AgentRevive.Value && !Permadeath.Value)
 				{
 					controller["revive"] -= 100f * dt / 60f / 24f;
 

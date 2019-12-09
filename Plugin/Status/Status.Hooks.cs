@@ -63,7 +63,7 @@ namespace HardcoreMode
 		{
 			if (playerController == null ||
 				(!PlayerDeath.Value && !AgentDeath.Value) ||
-				!PermaDeath.Value)
+				!Permadeath.Value)
 				return true;
 
 			if (playerController.ChaFileControl == __instance)

@@ -93,7 +93,7 @@ namespace HardcoreMode
 			"Having your stamina below or equal to this value will force you to walk.";
 		const string DESCRIPTION_AGENT_REVIVE_RESET =
 			"When enabled, this will reset their stats to 0 and hearts to 1 when they revive.";
-		const string DESCRIPTION_PERMA_DEATH =
+		const string DESCRIPTION_PERMADEATH =
 			"When enabled, dying will DELETE the card. " +
 			"This includes both the player character and the agent. " +
 			"Cards that are deleted WILL NOT be sent to the recycle bin.";
@@ -142,7 +142,7 @@ namespace HardcoreMode
 		internal static ConfigEntry<int> LowFood { get; set; }
 		internal static ConfigEntry<int> LowStamina { get; set; }
 		internal static ConfigEntry<bool> AgentReviveReset { get; set; }
-		internal static ConfigEntry<bool> PermaDeath { get; set; }
+		internal static ConfigEntry<bool> Permadeath { get; set; }
 
 
 		internal static ConfigEntry<int> HealthWarn { get; set; }
@@ -187,7 +187,7 @@ namespace HardcoreMode
 			LowFood = Config.Bind(SECTION_PENALTY, "Low Food Threshold", 0, new ConfigDescription(DESCRIPTION_LOW_FOOD, new AcceptableValueRange<int>(0, 100)));
 			LowStamina = Config.Bind(SECTION_PENALTY, "Low Stamina Threshold", 0, new ConfigDescription(DESCRIPTION_LOW_STAMINA, new AcceptableValueRange<int>(0, 100)));
 			AgentReviveReset = Config.Bind(SECTION_PENALTY, "Agent Revive Penalty", true, DESCRIPTION_AGENT_REVIVE_RESET);
-			PermaDeath = Config.Bind(SECTION_PENALTY, "Perma-Death", false, DESCRIPTION_PERMA_DEATH);
+			Permadeath = Config.Bind(SECTION_PENALTY, "Permadeath", false, DESCRIPTION_PERMADEATH);
 
 			HealthWarn = Config.Bind(SECTION_WARN, "Health Warning", 30, new ConfigDescription(DESCRIPTION_HEALTH_WARN, new AcceptableValueRange<int>(0, 100)));
 			AgentWarn = Config.Bind(SECTION_WARN, "Agent Health Warning", 30, new ConfigDescription(DESCRIPTION_AGENT_WARN, new AcceptableValueRange<int>(0, 100)));
